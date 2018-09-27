@@ -1,5 +1,10 @@
 #/bin/bash
 cd ~
+
+COINCLI=arcticcoin-cli
+COIND=arcticcoind
+COIN=arcticcoin
+
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'
@@ -12,17 +17,17 @@ if [[ $EUID -ne 0 ]]; then
    exit 1
 fi
 function configure_systemd() {
-  cat << EOF > /etc/systemd/system/transcendenced$ALIAS.service
+  cat << EOF > /etc/systemd/system/$COIND$ALIAS.service
 [Unit]
-Description=transcendenced$ALIAS service
+Description=$COIND$ALIAS service
 After=network.target
  [Service]
 User=root
 Group=root
  Type=forking
-#PIDFile=/root/.transcendence_$ALIAS/transcendenced.pid
- ExecStart=/root/bin/transcendenced_$ALIAS.sh
-ExecStop=-/root/bin/transcendence-cli_$ALIAS.sh stop
+#PIDFile=/root/.$COIN_$ALIAS/transcendenced.pid
+ ExecStart=/root/bin/$COIND_$ALIAS.sh
+ExecStop=-/root/bin/$COINCLI_$ALIAS.sh stop
  Restart=always
 PrivateTmp=true
 TimeoutStopSec=60s
@@ -35,10 +40,10 @@ EOF
   systemctl daemon-reload
   sleep 6
   crontab -l > cron$ALIAS
-  echo "@reboot systemctl start transcendenced$ALIAS" >> cron$ALIAS
+  echo "@reboot systemctl start $COIND$ALIAS" >> cron$ALIAS
   crontab cron$ALIAS
   rm cron$ALIAS
-  systemctl start transcendenced$ALIAS.service
+  systemctl start $COIND$ALIAS.service
 }
 IP4=$(curl -s4 api.ipify.org)
 perl -i -ne 'print if ! $a{$_}++' /etc/network/interfaces
@@ -57,7 +62,7 @@ read DO
 echo ""
 if [ $DO = "4" ]
 then
-ALIASES=$(find /root/.transcendence_* -maxdepth 0 -type d | cut -c22-)
+ALIASES=$(find /root/.${COIN}_* -maxdepth 0 -type d | cut -c22-)
 echo -e "${GREEN}${ALIASES}${NC}"
 echo ""
 echo "1 - Create new nodes"
@@ -77,11 +82,11 @@ read ALIAS
   sed -i '/$ALIAS/d' .bashrc
   sleep 1
   ## Config Alias
-  echo "alias ${ALIAS}_status=\"transcendence-cli -datadir=/root/.transcendence_$ALIAS masternode status\"" >> .bashrc
-  echo "alias ${ALIAS}_stop=\"transcendence-cli -datadir=/root/.transcendence_$ALIAS stop && systemctl stop transcendenced$ALIAS\"" >> .bashrc
-  echo "alias ${ALIAS}_start=\"/root/bin/transcendenced_${ALIAS}.sh && systemctl start transcendenced$ALIAS\""  >> .bashrc
-  echo "alias ${ALIAS}_config=\"nano /root/.transcendence_${ALIAS}/transcendence.conf\""  >> .bashrc
-  echo "alias ${ALIAS}_getinfo=\"transcendence-cli -datadir=/root/.transcendence_$ALIAS getinfo\"" >> .bashrc
+  echo "alias ${ALIAS}_status=\"$COINCLI -datadir=/root/.$COIN_$ALIAS masternode status\"" >> .bashrc
+  echo "alias ${ALIAS}_stop=\"$COINCLI -datadir=/root/.$COIN_$ALIAS stop && systemctl stop $COIND$ALIAS\"" >> .bashrc
+  echo "alias ${ALIAS}_start=\"/root/bin/$COIND_${ALIAS}.sh && systemctl start $COIND$ALIAS\""  >> .bashrc
+  echo "alias ${ALIAS}_config=\"nano /root/.${COIN}_${ALIAS}/$COIN.conf\""  >> .bashrc
+  echo "alias ${ALIAS}_getinfo=\"$COINCLI -datadir=/root/.$COIN_$ALIAS getinfo\"" >> .bashrc
   configure_systemd
   sleep 1
   source .bashrc
@@ -95,22 +100,22 @@ read ALIASD
 echo ""
 echo -e "${GREEN}Deleting ${ALIASD}${NC}. Please wait."
 ## Removing service
-systemctl stop transcendenced$ALIASD >/dev/null 2>&1
-systemctl disable transcendenced$ALIASD >/dev/null 2>&1
-rm /etc/systemd/system/transcendenced${ALIASD}.service >/dev/null 2>&1
+systemctl stop $COIND$ALIASD >/dev/null 2>&1
+systemctl disable $COIND$ALIASD >/dev/null 2>&1
+rm /etc/systemd/system/${COIND}${ALIASD}.service >/dev/null 2>&1
 systemctl daemon-reload >/dev/null 2>&1
 systemctl reset-failed >/dev/null 2>&1
 ## Stopping node
-transcendence-cli -datadir=/root/.transcendence_$ALIASD stop >/dev/null 2>&1
+$COIND -datadir=/root/.$COIN_$ALIASD stop >/dev/null 2>&1
 sleep 5
 ## Removing monit and directory
-rm /root/.transcendence_$ALIASD -r >/dev/null 2>&1
+rm /root/.$COIN_$ALIASD -r >/dev/null 2>&1
 sed -i '/$ALIASD/d' .bashrc >/dev/null 2>&1
 sleep 1
 sed -i '/$ALIASD/d' /etc/monit/monitrc >/dev/null 2>&1
 monit reload >/dev/null 2>&1
 sed -i '/$ALIASD/d' /etc/monit/monitrc >/dev/null 2>&1
-crontab -l -u root | grep -v transcendenced$ALIASD | crontab -u root - >/dev/null 2>&1
+crontab -l -u root | grep -v $COIND$ALIASD | crontab -u root - >/dev/null 2>&1
 source .bashrc
 echo -e "${ALIASD} Successfully deleted."
 fi
@@ -123,7 +128,7 @@ read EE
 echo ""
 if [ $EE = "1" ] 
 then
-MAXC="96"
+MAXC="32"
 fi
 if [ $EE = "2" ] 
 then
@@ -133,7 +138,7 @@ read MAXC
 fi
 if [ $DOSETUP = "y" ]
 then
-  echo -e "Installing ${GREEN}Transcendence dependencies${NC}. Please wait."
+  echo -e "Installing ${GREEN}${COIN} dependencies${NC}. Please wait."
   sudo apt-get update 
   sudo apt-get -y upgrade
   sudo apt-get -y dist-upgrade
