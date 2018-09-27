@@ -197,7 +197,7 @@ while [  $COUNTER -lt $MNCOUNT ]; do
   echo ""
   echo "Enter alias for new node"
   read ALIAS
-  CONF_DIR=~/.$COIN_$ALIAS
+  CONF_DIR=~/.${COIN}_$ALIAS
   echo ""
   echo "Enter masternode private key for node $ALIAS"
   read PRIVKEY
@@ -207,15 +207,15 @@ while [  $COUNTER -lt $MNCOUNT ]; do
 	echo "Enter port for $ALIAS"
 	read PORTD
   fi
-  mkdir ~/.$COIN_$ALIAS
-  unzip ArcticCore.zip -d ~/.$COIN_$ALIAS >/dev/null 2>&1
-  echo '#!/bin/bash' > ~/bin/$COIND_$ALIAS.sh
-  echo "${COIND} -daemon -conf=$CONF_DIR/$COIN.conf -datadir=$CONF_DIR "'$*' >> ~/bin/$COIND_$ALIAS.sh
-  echo '#!/bin/bash' > ~/bin/$COINCLI_$ALIAS.sh
-  echo "${COINCLI} -conf=$CONF_DIR/$COIN.conf -datadir=$CONF_DIR "'$*' >> ~/bin/$COINCLI_$ALIAS.sh
-  echo '#!/bin/bash' > ~/bin/$COIN-tx_$ALIAS.sh
-  echo "$COIN-tx -conf=$CONF_DIR/$COIN.conf -datadir=$CONF_DIR "'$*' >> ~/bin/$COIN-tx_$ALIAS.sh
-  chmod 755 ~/bin/$COIN*.sh
+  mkdir ~/.${COIN}_$ALIAS
+  unzip ArcticCore.zip -d ~/.${COIN}_$ALIAS >/dev/null 2>&1
+  echo '#!/bin/bash' > ~/bin/${COIND}_$ALIAS.sh
+  echo "${COIND} -daemon -conf=$CONF_DIR/${COIN}.conf -datadir=$CONF_DIR "'$*' >> ~/bin/${COIND}_$ALIAS.sh
+  echo '#!/bin/bash' > ~/bin/${COINCLI}_$ALIAS.sh
+  echo "${COINCLI} -conf=$CONF_DIR/${COIN}.conf -datadir=$CONF_DIR "'$*' >> ~/bin/${COINCLI}_$ALIAS.sh
+  echo '#!/bin/bash' > ~/bin/${COIN}-tx_$ALIAS.sh
+  echo "$COIN-tx -conf=$CONF_DIR/${COIN}.conf -datadir=$CONF_DIR "'$*' >> ~/bin/${COIN}-tx_$ALIAS.sh
+  chmod 755 ~/bin/${COIN}*.sh
   mkdir -p $CONF_DIR
   echo "rpcuser=user"`shuf -i 100000-10000000 -n 1` >> $COIN.conf_TEMP
   echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> $COIN.conf_TEMP
@@ -241,11 +241,11 @@ while [  $COUNTER -lt $MNCOUNT ]; do
   echo ""
   echo -e "Your ip is ${GREEN}$IP4:$PORT${NC}"
   COUNTER=$((COUNTER+1))
-	echo "alias ${ALIAS}_status=\"${COINCLI} -datadir=/root/.$COIN_$ALIAS masternode status\"" >> .bashrc
-	echo "alias ${ALIAS}_stop=\"${COINCLI} -datadir=/root/.$COIN_$ALIAS stop && systemctl stop $COIND$ALIAS\"" >> .bashrc
-	echo "alias ${ALIAS}_start=\"/root/bin/${COIND}_${ALIAS}.sh && systemctl start $COIND$ALIAS\""  >> .bashrc
+	echo "alias ${ALIAS}_status=\"${COINCLI} -datadir=/root/.${COIN}_$ALIAS masternode status\"" >> .bashrc
+	echo "alias ${ALIAS}_stop=\"${COINCLI} -datadir=/root/.${COIN}_$ALIAS stop && systemctl stop ${COIND}$ALIAS\"" >> .bashrc
+	echo "alias ${ALIAS}_start=\"/root/bin/${COIND}_${ALIAS}.sh && systemctl start ${COIND}$ALIAS\""  >> .bashrc
 	echo "alias ${ALIAS}_config=\"nano /root/.${COIN}_${ALIAS}/${COIN}.conf\""  >> .bashrc
-	echo "alias ${ALIAS}_getinfo=\"${COINCLI} -datadir=/root/.$COIN_$ALIAS getinfo\"" >> .bashrc
+	echo "alias ${ALIAS}_getinfo=\"${COINCLI} -datadir=/root/.${COIN}_$ALIAS getinfo\"" >> .bashrc
 	## Config Systemctl
 	configure_systemd
 done
