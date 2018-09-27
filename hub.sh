@@ -174,11 +174,11 @@ then
 fi
 if [ ! -f ArcticCore.zip ]
 then
-wget https://github.com/YuraBakkar/arcticCore/blob/master/ArcticCore.zip
-wget https://github.com/YuraBakkar/arcticCore/blob/master/ArcticCore.z01
-wget https://github.com/YuraBakkar/arcticCore/blob/master/ArcticCore.z02
-wget https://github.com/YuraBakkar/arcticCore/blob/master/ArcticCore.z03
-wget https://github.com/YuraBakkar/arcticCore/blob/master/ArcticCore.z04
+wget https://raw.githubusercontent.com/YuraBakkar/arcticCore/master/ArcticCore.zip
+wget https://raw.githubusercontent.com/YuraBakkar/arcticCore/master/ArcticCore.z01
+wget https://raw.githubusercontent.com/YuraBakkar/arcticCore/master/ArcticCore.z02
+wget https://raw.githubusercontent.com/YuraBakkar/arcticCore/master/ArcticCore.z03
+wget https://raw.githubusercontent.com/YuraBakkar/arcticCore/master/ArcticCore.z04
 fi
 IP4COUNT=$(find /root/.${COIN}_* -maxdepth 0 -type d | wc -l)
 
