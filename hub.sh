@@ -153,14 +153,14 @@ then
   sudo free 
   sudo echo "/var/swap.img none swap sw 0 0" >> /etc/fstab
   cd
- if [ ! -f Linux.zip ]
+ if [ ! -f arcticcore-0.12.2-linux64.tar.gz  ]
   then
-  wget https://github.com/phoenixkonsole/transcendence/releases/download/v1.1.0.0/Linux.zip  
+  wget https://github.com/ArcticCore/arcticcoin/releases/download/v0.12.1.2/arcticcore-0.12.2-linux64.tar.gz  
  fi
-  unzip Linux.zip 
-  chmod +x Linux/bin/* 
-  sudo mv  Linux/bin/* /usr/local/bin
-  rm -rf Linux.zip Windows Linux Mac
+  tar -xvzf arcticcore-0.12.2-linux64.tar.gz 
+  chmod +x arcticcore-0.12.1/bin/* 
+  sudo mv  arcticcore-0.12.1/bin/* /usr/local/bin
+  rm -rf arcticcore-0.12.2-linux64.tar.gz 
   sudo apt-get install -y ufw 
   sudo ufw allow ssh/tcp 
   sudo ufw limit ssh/tcp 
