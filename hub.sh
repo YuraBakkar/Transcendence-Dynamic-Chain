@@ -83,7 +83,7 @@ read ALIAS
   sed -i '/$ALIAS/d' .bashrc
   sleep 1
   ## Config Alias
-  echo "alias ${ALIAS}_status=\"$COINCLI -datadir=/root/.$COIN_$ALIAS masternode status\"" >> .bashrc
+  echo "alias ${ALIAS}_status=\"$COINCLI -datadir=/root/.$COIN_$ALIAS goldminenode status\"" >> .bashrc
   echo "alias ${ALIAS}_stop=\"$COINCLI -datadir=/root/.$COIN_$ALIAS stop && systemctl stop $COIND$ALIAS\"" >> .bashrc
   echo "alias ${ALIAS}_start=\"/root/bin/$COIND_${ALIAS}.sh && systemctl start $COIND$ALIAS\""  >> .bashrc
   echo "alias ${ALIAS}_config=\"nano /root/.${COIN}_${ALIAS}/$COIN.conf\""  >> .bashrc
@@ -242,7 +242,7 @@ while [  $COUNTER -lt $MNCOUNT ]; do
   echo ""
   echo -e "Your ip is ${GREEN}$IP4:$PORT${NC}"
   COUNTER=$((COUNTER+1))
-	echo "alias ${ALIAS}_status=\"${COINCLI} -datadir=/root/.${COIN}_$ALIAS masternode status\"" >> .bashrc
+	echo "alias ${ALIAS}_status=\"${COINCLI} -datadir=/root/.${COIN}_$ALIAS goldminenode status\"" >> .bashrc
 	echo "alias ${ALIAS}_stop=\"${COINCLI} -datadir=/root/.${COIN}_$ALIAS stop && systemctl stop ${COIND}$ALIAS\"" >> .bashrc
 	echo "alias ${ALIAS}_start=\"/root/bin/${COIND}_${ALIAS}.sh && systemctl start ${COIND}$ALIAS\""  >> .bashrc
 	echo "alias ${ALIAS}_config=\"nano /root/.${COIN}_${ALIAS}/${COIN}.conf\""  >> .bashrc
