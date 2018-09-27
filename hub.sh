@@ -227,7 +227,7 @@ while [  $COUNTER -lt $MNCOUNT ]; do
   echo "daemon=1" >> $COIN.conf_TEMP
   echo "logtimestamps=1" >> $COIN.conf_TEMP
   echo "maxconnections=$MAXC" >> $COIN.conf_TEMP
-  echo "masternode=1" >> $COIN.conf_TEMP
+  echo "goldminenode=1" >> $COIN.conf_TEMP
   echo "dbcache=50" >> $COIN.conf_TEMP
   echo "maxorphantx=10" >> $COIN.conf_TEMP
   echo "maxmempool=100" >> $COIN.conf_TEMP
@@ -235,8 +235,8 @@ while [  $COUNTER -lt $MNCOUNT ]; do
   echo "" >> $COIN.conf_TEMP
   echo "" >> $COIN.conf_TEMP
   echo "port=$PORTD" >> $COIN.conf_TEMP
-  echo "masternodeaddr=$IP4:$PORT" >> $COIN.conf_TEMP
-  echo "masternodeprivkey=$PRIVKEY" >> $COIN.conf_TEMP
+  echo "#masternodeaddr=$IP4:$PORT" >> $COIN.conf_TEMP
+  echo "goldminenodeprivkey=$PRIVKEY" >> $COIN.conf_TEMP
   sudo ufw allow $PORT1/tcp
   mv $COIN.conf_TEMP $CONF_DIR/$COIN.conf
   echo ""
