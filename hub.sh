@@ -107,10 +107,10 @@ rm /etc/systemd/system/${COIND}${ALIASD}.service >/dev/null 2>&1
 systemctl daemon-reload >/dev/null 2>&1
 systemctl reset-failed >/dev/null 2>&1
 ## Stopping node
-$COIND -datadir=/root/.$COIN_$ALIASD stop >/dev/null 2>&1
+$COIND -datadir=/root/.${COIN}_$ALIASD stop >/dev/null 2>&1
 sleep 5
 ## Removing monit and directory
-rm /root/.$COIN_$ALIASD -r >/dev/null 2>&1
+rm /root/.${COIN}_$ALIASD -r >/dev/null 2>&1
 sed -i '/$ALIASD/d' .bashrc >/dev/null 2>&1
 sleep 1
 sed -i '/$ALIASD/d' /etc/monit/monitrc >/dev/null 2>&1
