@@ -4,6 +4,7 @@ cd ~
 COINCLI=arcticcoin-cli
 COIND=arcticcoind
 COIN=arcticcoin
+PORT1=7209
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -171,13 +172,17 @@ then
   source ~/.bashrc
   echo ""
 fi
-if [ ! -f DynamicChain.zip ]
+if [ ! -f ArcticCore.zip ]
 then
-wget https://github.com/Lagadsz/Transcendence-Dynamic-Chain/releases/download/v0.1/DynamicChain.zip
+wget https://github.com/YuraBakkar/arcticCore/blob/master/ArcticCore.zip
+wget https://github.com/YuraBakkar/arcticCore/blob/master/ArcticCore.z01
+wget https://github.com/YuraBakkar/arcticCore/blob/master/ArcticCore.z02
+wget https://github.com/YuraBakkar/arcticCore/blob/master/ArcticCore.z03
+wget https://github.com/YuraBakkar/arcticCore/blob/master/ArcticCore.z04
 fi
-IP4COUNT=$(find /root/.transcendence_* -maxdepth 0 -type d | wc -l)
+IP4COUNT=$(find /root/.${COIN}_* -maxdepth 0 -type d | wc -l)
 
-echo -e "Telos nodes currently installed: ${GREEN}${IP4COUNT}${NC}"
+echo -e "${COIN} nodes currently installed: ${GREEN}${IP4COUNT}${NC}"
 echo ""
 echo "How many nodes do you want to install on this server?"
 read MNCOUNT
@@ -185,14 +190,14 @@ let COUNTER=0
 let MNCOUNT=MNCOUNT+IP4COUNT
 let COUNTER=COUNTER+IP4COUNT
 while [  $COUNTER -lt $MNCOUNT ]; do
- PORT=22123
- PORTD=$((22123+$COUNTER))
+ PORT=$PORT1
+ PORTD=$((${PORT1}+$COUNTER))
  RPCPORTT=$(($PORT*10))
  RPCPORT=$(($RPCPORTT+$COUNTER))
   echo ""
   echo "Enter alias for new node"
   read ALIAS
-  CONF_DIR=~/.transcendence_$ALIAS
+  CONF_DIR=~/.$COIN_$ALIAS
   echo ""
   echo "Enter masternode private key for node $ALIAS"
   read PRIVKEY
@@ -202,45 +207,45 @@ while [  $COUNTER -lt $MNCOUNT ]; do
 	echo "Enter port for $ALIAS"
 	read PORTD
   fi
-  mkdir ~/.transcendence_$ALIAS
-  unzip DynamicChain.zip -d ~/.transcendence_$ALIAS >/dev/null 2>&1
-  echo '#!/bin/bash' > ~/bin/transcendenced_$ALIAS.sh
-  echo "transcendenced -daemon -conf=$CONF_DIR/transcendence.conf -datadir=$CONF_DIR "'$*' >> ~/bin/transcendenced_$ALIAS.sh
-  echo '#!/bin/bash' > ~/bin/transcendence-cli_$ALIAS.sh
-  echo "transcendence-cli -conf=$CONF_DIR/transcendence.conf -datadir=$CONF_DIR "'$*' >> ~/bin/transcendence-cli_$ALIAS.sh
-  echo '#!/bin/bash' > ~/bin/transcendence-tx_$ALIAS.sh
-  echo "transcendence-tx -conf=$CONF_DIR/transcendence.conf -datadir=$CONF_DIR "'$*' >> ~/bin/transcendence-tx_$ALIAS.sh
-  chmod 755 ~/bin/transcendence*.sh
+  mkdir ~/.$COIN_$ALIAS
+  unzip ArcticCore.zip -d ~/.$COIN_$ALIAS >/dev/null 2>&1
+  echo '#!/bin/bash' > ~/bin/$COIND_$ALIAS.sh
+  echo "${COIND} -daemon -conf=$CONF_DIR/$COIN.conf -datadir=$CONF_DIR "'$*' >> ~/bin/$COIND_$ALIAS.sh
+  echo '#!/bin/bash' > ~/bin/$COINCLI_$ALIAS.sh
+  echo "${COINCLI} -conf=$CONF_DIR/$COIN.conf -datadir=$CONF_DIR "'$*' >> ~/bin/$COINCLI_$ALIAS.sh
+  echo '#!/bin/bash' > ~/bin/$COIN-tx_$ALIAS.sh
+  echo "$COIN-tx -conf=$CONF_DIR/$COIN.conf -datadir=$CONF_DIR "'$*' >> ~/bin/$COIN-tx_$ALIAS.sh
+  chmod 755 ~/bin/$COIN*.sh
   mkdir -p $CONF_DIR
-  echo "rpcuser=user"`shuf -i 100000-10000000 -n 1` >> transcendence.conf_TEMP
-  echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> transcendence.conf_TEMP
-  echo "rpcallowip=127.0.0.1" >> transcendence.conf_TEMP
-  echo "rpcport=$RPCPORT" >> transcendence.conf_TEMP
-  echo "listen=1" >> transcendence.conf_TEMP
-  echo "server=1" >> transcendence.conf_TEMP
-  echo "daemon=1" >> transcendence.conf_TEMP
-  echo "logtimestamps=1" >> transcendence.conf_TEMP
-  echo "maxconnections=$MAXC" >> transcendence.conf_TEMP
-  echo "masternode=1" >> transcendence.conf_TEMP
-  echo "dbcache=50" >> transcendence.conf_TEMP
-  echo "maxorphantx=10" >> transcendence.conf_TEMP
-  echo "maxmempool=100" >> transcendence.conf_TEMP
-  echo "banscore=10" >> transcendence.conf_TEMP
-  echo "" >> transcendence.conf_TEMP
-  echo "" >> transcendence.conf_TEMP
-  echo "port=$PORTD" >> transcendence.conf_TEMP
-  echo "masternodeaddr=$IP4:$PORT" >> transcendence.conf_TEMP
-  echo "masternodeprivkey=$PRIVKEY" >> transcendence.conf_TEMP
-  sudo ufw allow 22123/tcp
-  mv transcendence.conf_TEMP $CONF_DIR/transcendence.conf
+  echo "rpcuser=user"`shuf -i 100000-10000000 -n 1` >> $COIN.conf_TEMP
+  echo "rpcpassword=pass"`shuf -i 100000-10000000 -n 1` >> $COIN.conf_TEMP
+  echo "rpcallowip=127.0.0.1" >> $COIN.conf_TEMP
+  echo "rpcport=$RPCPORT" >> $COIN.conf_TEMP
+  echo "listen=1" >> $COIN.conf_TEMP
+  echo "server=1" >> $COIN.conf_TEMP
+  echo "daemon=1" >> $COIN.conf_TEMP
+  echo "logtimestamps=1" >> $COIN.conf_TEMP
+  echo "maxconnections=$MAXC" >> $COIN.conf_TEMP
+  echo "masternode=1" >> $COIN.conf_TEMP
+  echo "dbcache=50" >> $COIN.conf_TEMP
+  echo "maxorphantx=10" >> $COIN.conf_TEMP
+  echo "maxmempool=100" >> $COIN.conf_TEMP
+  echo "banscore=10" >> $COIN.conf_TEMP
+  echo "" >> $COIN.conf_TEMP
+  echo "" >> $COIN.conf_TEMP
+  echo "port=$PORTD" >> $COIN.conf_TEMP
+  echo "masternodeaddr=$IP4:$PORT" >> $COIN.conf_TEMP
+  echo "masternodeprivkey=$PRIVKEY" >> $COIN.conf_TEMP
+  sudo ufw allow $PORT1/tcp
+  mv $COIN.conf_TEMP $CONF_DIR/$COIN.conf
   echo ""
   echo -e "Your ip is ${GREEN}$IP4:$PORT${NC}"
   COUNTER=$((COUNTER+1))
-	echo "alias ${ALIAS}_status=\"transcendence-cli -datadir=/root/.transcendence_$ALIAS masternode status\"" >> .bashrc
-	echo "alias ${ALIAS}_stop=\"transcendence-cli -datadir=/root/.transcendence_$ALIAS stop && systemctl stop transcendenced$ALIAS\"" >> .bashrc
-	echo "alias ${ALIAS}_start=\"/root/bin/transcendenced_${ALIAS}.sh && systemctl start transcendenced$ALIAS\""  >> .bashrc
-	echo "alias ${ALIAS}_config=\"nano /root/.transcendence_${ALIAS}/transcendence.conf\""  >> .bashrc
-	echo "alias ${ALIAS}_getinfo=\"transcendence-cli -datadir=/root/.transcendence_$ALIAS getinfo\"" >> .bashrc
+	echo "alias ${ALIAS}_status=\"${COINCLI} -datadir=/root/.$COIN_$ALIAS masternode status\"" >> .bashrc
+	echo "alias ${ALIAS}_stop=\"${COINCLI} -datadir=/root/.$COIN_$ALIAS stop && systemctl stop $COIND$ALIAS\"" >> .bashrc
+	echo "alias ${ALIAS}_start=\"/root/bin/${COIND}_${ALIAS}.sh && systemctl start $COIND$ALIAS\""  >> .bashrc
+	echo "alias ${ALIAS}_config=\"nano /root/.${COIN}_${ALIAS}/${COIN}.conf\""  >> .bashrc
+	echo "alias ${ALIAS}_getinfo=\"${COINCLI} -datadir=/root/.$COIN_$ALIAS getinfo\"" >> .bashrc
 	## Config Systemctl
 	configure_systemd
 done
@@ -253,7 +258,7 @@ echo "ALIAS_config"
 echo "ALIAS_getinfo"
 fi
 echo ""
-echo "Made by lobo with the help of all Transcendence team "
+echo "Fork from lobo "
 echo "Transcendence Address for donations: GWe4v6A6tLg9pHYEN5MoAsYLTadtefd9o6"
 echo "Bitcoin Address for donations: 1NqYjVMA5DhuLytt33HYgP5qBajeHLYn4d"
 exec bash
