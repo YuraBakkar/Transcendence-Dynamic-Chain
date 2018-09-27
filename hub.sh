@@ -198,6 +198,7 @@ while [  $COUNTER -lt $MNCOUNT ]; do
   echo "Enter alias for new node"
   read ALIAS
   CONF_DIR=~/.${COIN}_$ALIAS
+  echo $CONF_DIR
   echo ""
   echo "Enter masternode private key for node $ALIAS"
   read PRIVKEY
