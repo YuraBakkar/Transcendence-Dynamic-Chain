@@ -235,7 +235,7 @@ while [  $COUNTER -lt $MNCOUNT ]; do
   echo "" >> $COIN.conf_TEMP
   echo "" >> $COIN.conf_TEMP
   echo "port=$PORTD" >> $COIN.conf_TEMP
-  echo "#masternodeaddr=$IP4:$PORT" >> $COIN.conf_TEMP
+  echo "externalip=$IP4:$PORT" >> $COIN.conf_TEMP
   echo "goldminenodeprivkey=$PRIVKEY" >> $COIN.conf_TEMP
   sudo ufw allow $PORT1/tcp
   mv $COIN.conf_TEMP $CONF_DIR/$COIN.conf
