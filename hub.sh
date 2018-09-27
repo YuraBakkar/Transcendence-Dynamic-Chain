@@ -1,9 +1,9 @@
 #/bin/bash
 cd ~
 
-COINCLI=arcticcoin-cli
-COIND=arcticcoind
-COIN=arcticcoin
+COINCLI='arcticcoin-cli'
+COIND='arcticcoind'
+COIN='arcticcoin'
 PORT1=7209
 
 RED='\033[0;31m'
