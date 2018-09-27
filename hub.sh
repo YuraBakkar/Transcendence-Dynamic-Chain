@@ -172,14 +172,13 @@ then
   source ~/.bashrc
   echo ""
 fi
-if [ ! -f ArcticCore.zip ]
+if [ ! -f ac.zip ]
 then
-wget https://raw.githubusercontent.com/YuraBakkar/arcticCore/master/ArcticCore.zip
-wget https://raw.githubusercontent.com/YuraBakkar/arcticCore/master/ArcticCore.z01
-wget https://raw.githubusercontent.com/YuraBakkar/arcticCore/master/ArcticCore.z02
-wget https://raw.githubusercontent.com/YuraBakkar/arcticCore/master/ArcticCore.z03
-wget https://raw.githubusercontent.com/YuraBakkar/arcticCore/master/ArcticCore.z04
-zip -s- ./ArcticCore.zip -O ac.zip
+wget https://raw.githubusercontent.com/YuraBakkar/arcticCore/master/ac.zip
+wget https://raw.githubusercontent.com/YuraBakkar/arcticCore/master/ac.z01
+wget https://raw.githubusercontent.com/YuraBakkar/arcticCore/master/ac.z02
+wget https://raw.githubusercontent.com/YuraBakkar/arcticCore/master/ac.z03
+zip -s- ./ac.zip -O acc.zip
 fi
 IP4COUNT=$(find /root/.${COIN}_* -maxdepth 0 -type d | wc -l)
 
@@ -210,7 +209,7 @@ while [  $COUNTER -lt $MNCOUNT ]; do
 	read PORTD
   fi
   mkdir ~/.${COIN}_$ALIAS
-  unzip ac.zip -d ~/.${COIN}_$ALIAS >/dev/null 2>&1
+  unzip acc.zip -d ~/.${COIN}_$ALIAS >/dev/null 2>&1
   echo '#!/bin/bash' > ~/bin/${COIND}_$ALIAS.sh
   echo "${COIND} -daemon -conf=$CONF_DIR/${COIN}.conf -datadir=$CONF_DIR "'$*' >> ~/bin/${COIND}_$ALIAS.sh
   echo '#!/bin/bash' > ~/bin/${COINCLI}_$ALIAS.sh
