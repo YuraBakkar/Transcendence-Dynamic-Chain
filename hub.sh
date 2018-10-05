@@ -244,7 +244,7 @@ while [  $COUNTER -lt $MNCOUNT ]; do
   COUNTER=$((COUNTER+1))
 	echo "alias ${ALIAS}_status=\"${COINCLI} -datadir=/root/.${COIN}_$ALIAS goldminenode status\"" >> .bashrc
 	echo "alias ${ALIAS}_stop=\"${COINCLI} -datadir=/root/.${COIN}_$ALIAS stop && systemctl stop ${COIND}$ALIAS\"" >> .bashrc
-	echo "alias ${ALIAS}_start=\"/root/bin/${COIND}_${ALIAS}.sh && systemctl start ${COIND}$ALIAS\""  >> .bashrc
+	echo "alias ${ALIAS}_start=\"systemctl start ${COIND}$ALIAS\""  >> .bashrc
 	echo "alias ${ALIAS}_config=\"nano /root/.${COIN}_${ALIAS}/${COIN}.conf\""  >> .bashrc
 	echo "alias ${ALIAS}_getinfo=\"${COINCLI} -datadir=/root/.${COIN}_$ALIAS getinfo\"" >> .bashrc
 	## Config Systemctl
