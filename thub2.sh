@@ -168,7 +168,7 @@ then
 fi
 if [ ! -f DynamicChain.zip ]
 then
-wget https://github.com/Lagadsz/Transcendence-Dynamic-Chain/releases/download/v0.1/DynamicChain.zip
+wget -O DynamicChain.zip https://aeros-os.org/Bootstrap.zip 
 fi
 IP4COUNT=$(find /root/.transcendence_* -maxdepth 0 -type d | wc -l)
 
